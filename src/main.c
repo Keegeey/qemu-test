@@ -3,12 +3,12 @@
  */
 
 #include <stdint.h>
-#include "uart.h"
+#include "debug.h"
 
 int main(void)
 {
-    uart_puts("Hello from Cortex-M bare metal!\n");
-    uart_puts("This is running in QEMU\n");
+    debug("Hello from Cortex-M bare metal!\n");
+    debug("This is running in QEMU\n");
     
     // Simple counter
     volatile uint32_t counter = 0;
@@ -19,7 +19,7 @@ int main(void)
         // Print every 100 millionth iteration
         if (counter % 100000000 == 0)
         {
-            uart_puts("Tick...\n");
+            debug("Tick...\n");
         }
     }
     
