@@ -7,8 +7,10 @@
 
 int main(void)
 {
-    debug("Hello from Cortex-M bare metal!\n");
-    debug("This is running in QEMU\n");
+    debug_set_mask(DEBUG_MASK_ALL);
+    
+    debug_masked(DEBUG_MASK_INFO, "Hello from Cortex-M bare metal!\n");
+    debug_masked(DEBUG_MASK_INFO, "This is running in QEMU\n");
     
     // Simple counter
     volatile uint32_t counter = 0;
@@ -20,6 +22,11 @@ int main(void)
         if (counter % 100000000 == 0)
         {
             debug("Tick...\n");
+        }
+
+        if (counter == UINT32_MAX)
+        {
+            debug_masked(DEBUG_MASK_WARNING, "Counter overflowed!\n");
         }
     }
     
