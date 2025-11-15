@@ -38,7 +38,7 @@ $(TARGET).bin: $(TARGET).elf
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 disasm: $(TARGET).elf
-	$(OBJDUMP) -d $< > $(TARGET).disasm
+	$(OBJDUMP) -d $< > $(TARGET).s
 
 # Emulate firmware
 qemu: $(TARGET).elf
@@ -49,6 +49,6 @@ debug: $(TARGET).elf
 	gdb-multiarch -ex "target remote :1234" -ex "layout src" $<
 
 clean:
-	rm -f $(OBJS) $(TARGET).elf $(TARGET).bin $(TARGET).disasm
+	rm -f $(OBJS) $(TARGET).elf $(TARGET).bin $(TARGET).s
 
 .PHONY: all clean qemu debug disasm

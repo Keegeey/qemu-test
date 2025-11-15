@@ -1,3 +1,8 @@
+/**
+ * @file uart.c
+ */
+
+
 #include "uart.h"
 #include <stdint.h>
 
@@ -12,7 +17,8 @@ void uart_putc(char c)
 
 void uart_puts(const char *str)
 {
-    while(*str) {
+    while (*str)
+    {
         uart_putc(*str++);
     }
 }
