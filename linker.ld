@@ -1,4 +1,4 @@
-/* Linker script for TI LM3S6965 (Cortex-M3, similar to M4) */
+/* Linker script for TI LM3S6965 (Cortex-M3) */
 MEMORY
 {
     FLASH (rx)  : ORIGIN = 0x00000000, LENGTH = 256K

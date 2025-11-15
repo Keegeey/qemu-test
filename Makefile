@@ -1,4 +1,4 @@
-# Cortex-M4 bare metal project
+# Cortex-M3 bare metal project
 TARGET = firmware
 
 # Tools
@@ -7,11 +7,10 @@ OBJCOPY = arm-none-eabi-objcopy
 OBJDUMP = arm-none-eabi-objdump
 SIZE = arm-none-eabi-size
 
-# Compiler flags for Cortex-M4
-CFLAGS = -mcpu=cortex-m4 \
+# Compiler flags for Cortex-M3
+CFLAGS = -mcpu=cortex-m3 \
          -mthumb \
          -mfloat-abi=soft \
-         -nostdlib \
          -nostartfiles \
          -ffreestanding \
          -Wall \
@@ -42,13 +41,15 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+# Generate disassembly
 disasm: $(TARGET).elf
 	$(OBJDUMP) -d $< > $(TARGET).s
 
-# Emulate firmware
+# Run in QEMU (hardware emulator)
 qemu: $(TARGET).elf
 	qemu-system-arm -M lm3s6965evb -nographic -kernel $<
 
+# Debug with GDB
 debug: $(TARGET).elf
 	qemu-system-arm -M lm3s6965evb -nographic -kernel $< -s -S &
 	gdb-multiarch -ex "target remote :1234" -ex "layout src" $<
