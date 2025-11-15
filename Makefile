@@ -22,8 +22,12 @@ CFLAGS = -mcpu=cortex-m4 \
 LDFLAGS = -T linker.ld
 
 # Source files
-SRCS = src/startup.c src/main.c src/uart.c
-OBJS = $(SRCS:.c=.o)
+SRC_DIR = src
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+
+# Object files
+OBJ_DIR = build
+OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
 all: $(TARGET).elf $(TARGET).bin
 
@@ -34,7 +38,8 @@ $(TARGET).elf: $(OBJS)
 $(TARGET).bin: $(TARGET).elf
 	$(OBJCOPY) -O binary $< $@
 
-%.o: %.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 disasm: $(TARGET).elf
@@ -49,6 +54,6 @@ debug: $(TARGET).elf
 	gdb-multiarch -ex "target remote :1234" -ex "layout src" $<
 
 clean:
-	rm -f $(OBJS) $(TARGET).elf $(TARGET).bin $(TARGET).s
+	rm -rf $(OBJ_DIR) $(TARGET).elf $(TARGET).bin $(TARGET).s
 
 .PHONY: all clean qemu debug disasm

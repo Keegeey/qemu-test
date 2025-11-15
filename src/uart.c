@@ -2,7 +2,6 @@
  * @file uart.c
  */
 
-
 #include "uart.h"
 #include <stdint.h>
 
