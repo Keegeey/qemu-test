@@ -17,8 +17,13 @@ typedef enum {
     DEBUG_MASK_ALL     = 0xFFFFFFFF,
 } debug_masks_t;
 
-void debug(const char *msg);
-void debug_masked(debug_mask_t mask, const char *msg);
+void debug(const char *fmt, ...);
+
+/* Macro forwards variadic args directly to debug() when mask enabled.
+   The first variadic arg after mask becomes the format string. */
+#define debug_masked(mask, fmt, ...) \
+    do { if (debug_is_enabled(mask)) debug(fmt, ##__VA_ARGS__); } while (0)
+
 void debug_set_mask(debug_mask_t mask);
 debug_mask_t debug_get_mask(void);
 bool debug_is_enabled(debug_mask_t mask);

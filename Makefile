@@ -11,6 +11,7 @@ SIZE = arm-none-eabi-size
 CFLAGS = -mcpu=cortex-m3 \
          -mthumb \
          -mfloat-abi=soft \
+		 --specs=nosys.specs \
          -nostartfiles \
          -ffreestanding \
          -Wall \

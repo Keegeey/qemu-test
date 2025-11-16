@@ -13,6 +13,14 @@ typedef enum {
     UART2,
 } uart_t;
 
+/**
+ * Check if data is available to read from UART without blocking.
+ * Returns 1 if data is ready, 0 otherwise.
+ */
+int uart_data_available(uart_t uart);
+
+char uart_getc(uart_t uart);
+
 void uart_putc(uart_t uart, char c);
 
 /**

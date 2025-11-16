@@ -3,22 +3,31 @@
  */
 
 #include <stdbool.h>
+#include <stdarg.h>
+#include <stdio.h>
 #include "debug.h"
 #include "uart.h"
 
+#define DEBUG_BUFFER_SIZE 256
+
 debug_mask_t curr_mask = 0xFFFFFFFF; // Enable all by default
 
-void debug(const char *msg)
+static void debug_va(const char *fmt, va_list ap)
 {
-    uart_puts(UART0, msg);
+    char buf[DEBUG_BUFFER_SIZE];
+    int n = vsnprintf(buf, sizeof(buf), fmt, ap);
+    if (n > 0)
+    {
+        uart_puts(UART0, buf);
+    }
 }
 
-void debug_masked(debug_mask_t mask, const char *msg)
+void debug(const char *fmt, ...)
 {
-    if (debug_is_enabled(mask))
-    {
-        debug(msg);
-    }
+    va_list ap;
+    va_start(ap, fmt);
+    debug_va(fmt, ap);
+    va_end(ap);
 }
 
 void debug_set_mask(debug_mask_t mask)

@@ -36,5 +36,8 @@ SECTIONS
         _ebss = .;
     } > SRAM
 
+    /* Provide symbols expected by some C libraries for heap start */
+    PROVIDE(end = _ebss);
+
     _stack_top = ORIGIN(SRAM) + LENGTH(SRAM);
 }
