@@ -15,8 +15,10 @@ debug_mask_t curr_mask = 0xFFFFFFFF; // Enable all by default
 static void debug_va(const char *fmt, va_list ap)
 {
     char buf[DEBUG_BUFFER_SIZE];
-    int n = vsnprintf(buf, sizeof(buf), fmt, ap);
-    if (n > 0)
+    
+    int len = vsnprintf(buf, sizeof(buf), fmt, ap);
+
+    if (len > 0)
     {
         uart_puts(UART0, buf);
     }

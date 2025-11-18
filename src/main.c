@@ -12,7 +12,6 @@ int main(void)
 
     debug_masked(DEBUG_MASK_INFO, "Hello from Cortex-M bare metal!\n");
     debug_masked(DEBUG_MASK_INFO, "This is running in QEMU\n");
-    debug_masked(DEBUG_MASK_INFO, "Type something:\n");
     
     volatile uint32_t counter = 0;
     volatile uint32_t uart_check_counter = 0;
@@ -26,7 +25,7 @@ int main(void)
         if (uart_check_counter >= 1000)
         {
             uart_check_counter = 0;
-            if (uart_data_available(UART0))
+            if (uart_data_avail(UART0))
             {
                 char c = uart_getc(UART0);
                 uart_putc(UART0, c);  // Echo back
